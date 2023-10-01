@@ -13,14 +13,12 @@ class CepDeleteConfirmationDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            // Feche o diálogo sem excluir o CEP
             Navigator.of(context).pop();
           },
           child: const Text('Cancelar'),
         ),
         TextButton(
           onPressed: () {
-            // Chame a função de exclusão quando a exclusão for confirmada
             onDeleteConfirmed();
             Navigator.of(context).pop();
           },

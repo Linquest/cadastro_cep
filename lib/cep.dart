@@ -1,5 +1,5 @@
 class CEP {
-  String objectId; // ID do objeto no Back4App
+  String objectId; 
   String cep;
   String logradouro;
   String bairro;
@@ -15,7 +15,6 @@ class CEP {
     required this.uf,
   });
 
-  // Construtor factory para criar uma instância de CEP a partir de um mapa
   factory CEP.fromMap(Map<String, dynamic> map) {
     return CEP(
       objectId: map['objectId'] ?? '',
@@ -27,7 +26,6 @@ class CEP {
     );
   }
 
-  // Converte o objeto CEP em um mapa para ser usado ao criar ou atualizar no Back4App
   Map<String, dynamic> toMap() {
     return {
       'cep': cep,

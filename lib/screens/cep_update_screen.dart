@@ -63,7 +63,6 @@ class _CepUpdateScreenState extends State<CepUpdateScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Obtém os dados atualizados dos controladores
                 final updatedCepData = {
                   'cep': cepController.text,
                   'logradouro': logradouroController.text,
@@ -72,13 +71,10 @@ class _CepUpdateScreenState extends State<CepUpdateScreen> {
                   'uf': ufController.text,
                 };
 
-                // Chama a função para atualizar o CEP
                 Back4AppService.updateCEP(widget.cepData['objectId'], updatedCepData)
                     .then((_) {
-                  // Atualização bem-sucedida, você pode navegar de volta para a tela anterior ou fornecer feedback ao usuário.
                   Navigator.of(context).pop();
                 }).catchError((error) {
-                  // Lidere com erros de atualização, por exemplo, exibindo uma mensagem de erro.
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Erro ao atualizar o CEP: $error'),
