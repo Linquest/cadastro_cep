@@ -1,12 +1,12 @@
-class CEP {
-  String objectId; 
+class CepModel {
+  String objectId;
   String cep;
   String logradouro;
   String bairro;
   String localidade;
   String uf;
 
-  CEP({
+  CepModel({
     required this.objectId,
     required this.cep,
     required this.logradouro,
@@ -15,8 +15,8 @@ class CEP {
     required this.uf,
   });
 
-  factory CEP.fromMap(Map<String, dynamic> map) {
-    return CEP(
+  factory CepModel.fromMap(Map<String, dynamic> map) {
+    return CepModel(
       objectId: map['objectId'] ?? '',
       cep: map['cep'] ?? '',
       logradouro: map['logradouro'] ?? '',

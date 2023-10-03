@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cadastro_cep/models/cep.dart';
 import 'package:http/http.dart' as http;
 
 class Back4AppService {
@@ -6,7 +7,7 @@ class Back4AppService {
   static const String apiKey = 'ub3fZUbvZcpMpWP7uBkQUtzZaK3LHYZvH2CN6fNb';
   static const String baseUrl = 'https://parseapi.back4app.com/classes/CEP';
 
-  static Future<List<Map<String, dynamic>>> fetchCEPs() async {
+  static Future<List<CepModel>> fetchCEPs() async {
     final response = await http.get(
       Uri.parse(baseUrl),
       headers: {
@@ -17,13 +18,13 @@ class Back4AppService {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body)['results'];
-      return jsonResponse.cast<Map<String, dynamic>>();
+      return jsonResponse.cast<CepModel>();
     } else {
       throw Exception('Não foi possível carregar os CEPs do Back4App.');
     }
   }
 
-  static Future<void> createCEP(Map<String, dynamic> cepData) async {
+  static Future<void> createCEP(CepModel cepData) async {
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: {
@@ -39,7 +40,7 @@ class Back4AppService {
     }
   }
 
-  static Future<void> updateCEP(String objectId, Map<String, dynamic> updatedCepData) async {
+  static Future<void> updateCEP(String objectId, CepModel updatedCepData) async {
     final url = '$baseUrl/$objectId';
 
     final response = await http.put(

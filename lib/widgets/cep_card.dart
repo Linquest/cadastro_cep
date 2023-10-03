@@ -1,16 +1,16 @@
-import 'package:cadastro_cep/cep.dart';
-import 'package:cadastro_cep/widgets/cep_delete_confirmation_dialog.dart';
+import 'package:cadastro_cep/models/cep.dart';
 import 'package:flutter/material.dart';
 
 class CepCard extends StatelessWidget {
-  final CEP cep;
-  final VoidCallback onUpdate;
-  final VoidCallback onDelete;
+  final CepModel cep;
+  final VoidCallback? onUpdate;
+  final VoidCallback? onDelete;
 
-  const CepCard({super.key, 
+  const CepCard({
+    super.key,
     required this.cep,
-    required this.onUpdate,
-    required this.onDelete,
+     this.onUpdate,
+    this.onDelete,
   });
 
   @override
@@ -43,14 +43,14 @@ class CepCard extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CepDeleteConfirmationDialog(
-                          onDeleteConfirmed: onDelete,
-                        );
-                      },
-                    );
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (context) {
+                    //     return CepDeleteConfirmationDialog(
+                    //       onDeleteConfirmed: onDelete,
+                    //     );
+                    //   },
+                    // );
                   },
                 ),
               ],

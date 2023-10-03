@@ -28,14 +28,18 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.1.0
+  crypto: ^3.0.3
+  cupertino_icons: ^1.0.2
+  dio: ^5.3.3
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
-  provider: ^6.0.1 # Gerenciamento de estado
-  shared_preferences: ^2.0.12 # Para armazenar dados locais
-  cached_network_image: ^3.1.0 # Para carregar imagens da web
-  flutter_staggered_grid_view: ^0.4.0 # Para a lista de CEPs
-  equatable: ^2.0.5 # Facilita a comparação de objetos
+  flutter_staggered_grid_view: ^0.4.0
+  http: ^0.13.6
   parse_server_sdk_flutter: ^5.1.1
+  provider: ^6.0.5
+  shared_preferences: ^2.0.12
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,6 +49,7 @@ dependencies:
   crypto: ^3.0.3
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 

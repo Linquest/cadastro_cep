@@ -1,74 +1,32 @@
+import 'package:cadastro_cep/models/cep.dart';
+import 'package:cadastro_cep/providers/via_cep_provider.dart';
+import 'package:cadastro_cep/widgets/cep_card.dart';
 import 'package:flutter/material.dart';
-import 'package:cadastro_cep/services/via_cep_service.dart';
-import 'package:cadastro_cep/services/back4app_service.dart';
-import 'package:cadastro_cep/widgets/loading_indicator.dart';
+import 'package:provider/provider.dart';
 
 class CepSearchScreen extends StatefulWidget {
   const CepSearchScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CepSearchScreenState createState() => _CepSearchScreenState();
+  State<CepSearchScreen> createState() => _CepSearchScreenState();
 }
 
 class _CepSearchScreenState extends State<CepSearchScreen> {
-  final _cepController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  Map<String, dynamic>? _cepData;
+  late final GlobalKey<FormState> _formKey;
+  late final TextEditingController _cepController;
+  CepModel? address;
 
-  Future<void> _searchCep() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      final cep = _cepController.text;
-      try {
-        final data = await ViaCEPService.fetchCEP(cep);
-        setState(() {
-          _cepData = data;
-          _isLoading = false;
-        });
-      } catch (e) {
-        setState(() {
-          _cepData = null;
-          _isLoading = false;
-        });
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Erro ao buscar CEP'),
-              content: const Text('O CEP informado não foi encontrado.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Fechar'),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    if (_cepData != null) {
-                      await Back4AppService.createCEP(_cepData!);
-                      // ignore: use_build_context_synchronously
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Text('Cadastrar CEP'),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _cepController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viaCepProvider = Provider.of<ViaCepProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -104,30 +62,42 @@ class _CepSearchScreenState extends State<CepSearchScreen> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: _isLoading ? null : _searchCep,
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    viaCepProvider.fetchViaCep(cep: _cepController.text);
+                    address = viaCepProvider.address!;
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   textStyle: const TextStyle(
                     fontSize: 18.0,
                   ),
                 ),
-                child: _isLoading
-                    ? const LoadingIndicator()
-                    : const Text('Consultar CEP'),
+                child: const Text('Consultar CEP'),
               ),
               const SizedBox(height: 16.0),
-              if (_isLoading)
-                const LoadingIndicator(),
-              else if (_cepData != null)
-                CepCard(
-                  cep: _cepData!,
-                  onUpdate: () {},
-                  onDelete: () {},
-                ),
+              if (isEmptyAddress(address!))
+                Center(
+                  child: Column(
+                    children: [
+                      const Text('Cep nao encontrado!'),
+                      ElevatedButton(
+                          onPressed: () {//// PASSAR P PAGINA DE CADASTRO FAZER LOGICA DE CADASTRO
+                          }, child: const Text('Cadastrar')),
+                    ],
+                  ),
+                )
+              else
+                CepCard(cep: address!)
             ],
           ),
         ),
       ),
     );
   }
+}
+
+bool isEmptyAddress(CepModel address) {
+  return address.bairro.isEmpty || address.cep.isEmpty;
 }

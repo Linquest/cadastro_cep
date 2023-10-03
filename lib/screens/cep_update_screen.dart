@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cadastro_cep/services/back4app_service.dart';
 
 class CepUpdateScreen extends StatefulWidget {
   final Map<String, dynamic> cepData;
@@ -21,7 +20,6 @@ class _CepUpdateScreenState extends State<CepUpdateScreen> {
   @override
   void initState() {
     super.initState();
-    // Inicialize os controladores com os dados existentes do CEP
     cepController.text = widget.cepData['cep'];
     logradouroController.text = widget.cepData['logradouro'];
     bairroController.text = widget.cepData['bairro'];
@@ -63,24 +61,17 @@ class _CepUpdateScreenState extends State<CepUpdateScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                final updatedCepData = {
-                  'cep': cepController.text,
-                  'logradouro': logradouroController.text,
-                  'bairro': bairroController.text,
-                  'localidade': localidadeController.text,
-                  'uf': ufController.text,
-                };
 
-                Back4AppService.updateCEP(widget.cepData['objectId'], updatedCepData)
-                    .then((_) {
-                  Navigator.of(context).pop();
-                }).catchError((error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Erro ao atualizar o CEP: $error'),
-                    ),
-                  );
-                });
+                // Back4AppService.updateCEP(widget.cepData['objectId'], updatedCepData)
+                //     .then((_) {
+                //   Navigator.of(context).pop();
+                // }).catchError((error) {
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text('Erro ao atualizar o CEP: $error'),
+                //     ),
+                //   );
+                // });
               },
               child: const Text('Atualizar CEP'),
             ),

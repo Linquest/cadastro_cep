@@ -1,4 +1,4 @@
-import 'package:cadastro_cep/cep.dart';
+import 'package:cadastro_cep/models/cep.dart';
 import 'package:cadastro_cep/widgets/cep_card.dart';
 import 'package:cadastro_cep/widgets/cep_delete_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +14,12 @@ class CepListScreen extends StatefulWidget {
 }
 
 class _CepListScreenState extends State<CepListScreen> {
-  late Future<List<CEP>> ceps;
+  late Future<List<CepModel>> ceps;
 
   @override
   void initState() {
     super.initState();
-    ceps = Back4AppService.fetchCEPs() as Future<List<CEP>>;
+    ceps = Back4AppService.fetchCEPs();
   }
 
   @override
@@ -28,7 +28,7 @@ class _CepListScreenState extends State<CepListScreen> {
       appBar: AppBar(
         title: const Text('Lista de CEPs'),
       ),
-      body: FutureBuilder<List<CEP>>(
+      body: FutureBuilder<List<CepModel>>(
         future: ceps,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
